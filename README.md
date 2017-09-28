@@ -5,6 +5,8 @@ It is a transportation grid, where agents can come in and arrange their transpor
 
 When time permits, independent cars agents for self-driving cars can enter to offer their services as well.
 
+And when there is playtime: add scam agents that pretend to be legitimate self-driving cars in order to take the user agent's money.
+
 ## Components to be implemented
 * A delegated identity Ethereum Contract (Solidity)
 * A public Customs Microservice (Web API, C#)
