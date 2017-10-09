@@ -1,13 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="TransportationType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
+    <Parameter Name="Reservation_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="Reservation_PartitionCount" DefaultValue="1" />
+    <Parameter Name="Reservation_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="Payment_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="Payment_PartitionCount" DefaultValue="1" />
+    <Parameter Name="Payment_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="Agenda_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="Agenda_PartitionCount" DefaultValue="1" />
+    <Parameter Name="Agenda_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="Customs_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="Customs_PartitionCount" DefaultValue="1" />
     <Parameter Name="Customs_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="UserAgentActorService_PartitionCount" DefaultValue="10" />
+    <Parameter Name="UserAgentActorService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="UserAgentActorService_TargetReplicaSetSize" DefaultValue="3" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="UserAgentPkg" ServiceManifestVersion="1.0.0" />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="ReservationPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="PaymentPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="AgendaPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="CustomsPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
@@ -18,9 +45,29 @@
          ServiceFabric PowerShell module.
          
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
+    <Service Name="Reservation">
+      <StatefulService ServiceTypeName="ReservationType" TargetReplicaSetSize="[Reservation_TargetReplicaSetSize]" MinReplicaSetSize="[Reservation_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[Reservation_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="Payment">
+      <StatefulService ServiceTypeName="PaymentType" TargetReplicaSetSize="[Payment_TargetReplicaSetSize]" MinReplicaSetSize="[Payment_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[Payment_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="Agenda">
+      <StatefulService ServiceTypeName="AgendaType" TargetReplicaSetSize="[Agenda_TargetReplicaSetSize]" MinReplicaSetSize="[Agenda_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[Agenda_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
     <Service Name="Customs">
       <StatefulService ServiceTypeName="CustomsType" TargetReplicaSetSize="[Customs_TargetReplicaSetSize]" MinReplicaSetSize="[Customs_MinReplicaSetSize]">
         <UniformInt64Partition PartitionCount="[Customs_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="UserAgentActorService" GeneratedIdRef="71e26441-8ee4-4de7-9cc9-cea9ce5386b8|Persisted">
+      <StatefulService ServiceTypeName="UserAgentActorServiceType" TargetReplicaSetSize="[UserAgentActorService_TargetReplicaSetSize]" MinReplicaSetSize="[UserAgentActorService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[UserAgentActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
   </DefaultServices>

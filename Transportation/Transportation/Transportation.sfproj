@@ -32,7 +32,11 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Agenda\Agenda.csproj" />
     <ProjectReference Include="..\Customs\Customs.csproj" />
+    <ProjectReference Include="..\Payment\Payment.csproj" />
+    <ProjectReference Include="..\Reservation\Reservation.csproj" />
+    <ProjectReference Include="..\UserAgent\UserAgent.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>
