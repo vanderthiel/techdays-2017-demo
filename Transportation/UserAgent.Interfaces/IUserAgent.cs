@@ -17,13 +17,13 @@ namespace UserAgent.Interfaces
         /// TODO: Replace with your own actor method.
         /// </summary>
         /// <returns></returns>
-        Task<int> GetCountAsync(CancellationToken cancellationToken);
+        Task<int> GetCountAsync();
 
         /// <summary>
         /// TODO: Replace with your own actor method.
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        Task SetCountAsync(int count, CancellationToken cancellationToken);
+        Task SetCountAsync(int count);
     }
 }

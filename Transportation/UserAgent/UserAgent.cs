@@ -7,6 +7,7 @@ using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
 using Microsoft.ServiceFabric.Actors.Client;
 using UserAgent.Interfaces;
+using Nethereum;
 
 namespace UserAgent
 {
@@ -21,6 +22,8 @@ namespace UserAgent
     [StatePersistence(StatePersistence.Persisted)]
     internal class UserAgent : Actor, IUserAgent
     {
+        private DelegatedIdentity identity = new DelegatedIdentity();
+
         /// <summary>
         /// Initializes a new instance of UserAgent
         /// </summary>
@@ -44,28 +47,19 @@ namespace UserAgent
             // Any serializable object can be saved in the StateManager.
             // For more information, see https://aka.ms/servicefabricactorsstateserialization
 
-            return this.StateManager.TryAddStateAsync("count", 0);
+            this.StateManager.TryAddStateAsync("count", 0);
+
+            return identity.Initialize();
         }
 
-        /// <summary>
-        /// TODO: Replace with your own actor method.
-        /// </summary>
-        /// <returns></returns>
-        Task<int> IUserAgent.GetCountAsync(CancellationToken cancellationToken)
+        Task<int> IUserAgent.GetCountAsync()
         {
-            return this.StateManager.GetStateAsync<int>("count", cancellationToken);
+            return this.StateManager.GetStateAsync<int>("count");
         }
 
-        /// <summary>
-        /// TODO: Replace with your own actor method.
-        /// </summary>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        Task IUserAgent.SetCountAsync(int count, CancellationToken cancellationToken)
+        Task IUserAgent.SetCountAsync(int count)
         {
-            // Requests are not guaranteed to be processed in order nor at most once.
-            // The update function here verifies that the incoming count is greater than the current count to preserve order.
-            return this.StateManager.AddOrUpdateStateAsync("count", count, (key, value) => count > value ? count : value, cancellationToken);
+            return this.StateManager.AddOrUpdateStateAsync("count", count, (key, value) => count > value ? count : value);
         }
     }
 }

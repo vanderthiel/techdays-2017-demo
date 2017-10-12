@@ -20,7 +20,6 @@ contract DelegatedIdentity {
 
     function checkClaim(string publicKey, string claim) returns (address authority) {
         if (sha256(publicKey) == publicKeys[msg.sender]) {
-            // todo: find claim
             return claims[claim];
         }
     }
