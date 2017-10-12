@@ -14,7 +14,7 @@ namespace DigitalAssistant
         static void Main(string[] args)
         {
             var actor = ActorProxy.Create<IUserAgent>(ActorId.CreateRandom(), new Uri("fabric:/Transportation/UserAgentActorService"));
-            var retval = actor.GetCountAsync();
+            var retval = actor.GetTransportAsync("add schedule here");
             Console.Write(retval.Result);
             Console.ReadLine();
         }
