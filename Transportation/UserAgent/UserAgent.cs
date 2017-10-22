@@ -7,6 +7,7 @@ using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
 using Microsoft.ServiceFabric.Actors.Client;
 using UserAgent.Interfaces;
+using Shared;
 using Nethereum;
 
 namespace UserAgent
@@ -25,13 +26,15 @@ namespace UserAgent
         {
             ActorEventSource.Current.ActorMessage(this, "Actor activated.");
             
-            this.StateManager.TryAddStateAsync("reservation", "all the reservation results");
-
-            return identity.Initialize();
+            return this.StateManager.TryAddStateAsync("reservation", "all the reservation results");
         }
 
-        public Task<string> GetTransportAsync(string schedule)
+        public Task<string> GetTransportAsync(string schedule, byte[] agentkey, string contractAddress)
         {
+            // todo: should be only when not initialized
+            identity.Initialize(agentkey, contractAddress).RunSynchronously();
+
+            // Todo: actually do something
             return this.StateManager.GetStateAsync<string>("reservation");
         }
     }

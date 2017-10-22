@@ -143,7 +143,6 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DelegatedIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserAgent.cs" />
     <Compile Include="Program.cs" />
@@ -156,6 +155,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{34309647-6af5-4f2b-ba11-a7185aad7123}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserAgent.Interfaces\UserAgent.Interfaces.csproj">
       <Project>{0B4BDCA6-E20C-495B-B150-2B4F366B50AC}</Project>
       <Name>UserAgent.Interfaces</Name>

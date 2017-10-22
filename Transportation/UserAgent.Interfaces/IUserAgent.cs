@@ -13,6 +13,6 @@ namespace UserAgent.Interfaces
     /// </summary>
     public interface IUserAgent : IActor
     {
-        Task<string> GetTransportAsync(string schedule);
+        Task<string> GetTransportAsync(string schedule, byte[] agentkey, string contractAddress);
     }
 }
